@@ -1,4 +1,4 @@
-# Configure the Locale, etc..
+# Configure the Locale, Fonts, etc..
 
 { config, pkgs, ... }:{
   # Timezone / Locale / Keyboard layout
@@ -20,4 +20,7 @@
     variant = "";
   };
   console.keyMap = "uk";
+  
+  # Fonts
+  fonts.packages = with pkgs; [ nerdfonts ];
 }

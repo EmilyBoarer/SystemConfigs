@@ -10,17 +10,20 @@
     
     minegrub-world-sel-theme.inputs.nixpkgs.follows = "nixpkgs";  
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixvim.url = "github:nix-community/nixvim";
+    #Do not track nixpkgs for nixvim - as per nixvim FAQ
+    #nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, minegrub-world-sel-theme, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, minegrub-world-sel-theme, nixvim, ... }:
     let
       defineNixosSystem = hostname: nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./configuration.nix
-          minegrub-world-sel-theme.nixosModules.default
 	  ./locale.nix
-	  ./hosts/nixos
+	  ./hosts/${hostname}/configuration.nix
+	  minegrub-world-sel-theme.nixosModules.default # TODO haven't been able to get this to work from Orchid/configuration.nix yet - give it another go!
 	  ({ config, pkgs, lib, ... }: {
    	    networking.hostName = lib.mkDefault hostname;
 	    networking.networkmanager.enable = true;
@@ -29,7 +32,7 @@
 	      # Set password with `passwd`
 	      isNormalUser = true;
 	      description = "Emily";
-	      extraGroups = [ "networkmanager" "wheel" ];
+	      extraGroups = [ "networkmanager" "wheel" "audio" ];
 	      shell = pkgs.zsh;
 	      packages = with pkgs; [
                 home-manager
@@ -44,12 +47,30 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.emily = ./home;
+            home-manager.users.emily = ./home/emily;
 	    home-manager.backupFileExtension = "backup";
           }
         ];
       };
+      defineHomeManagerOnlySystem = username: system: home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs { inherit system; };
+        
+        modules = [
+            {
+              ## Assume home directory location
+              home.username = username;
+              home.homeDirectory = "/home/${username}";
+            }
+
+                ./home/${username}/home.nix
+                # ./locale.nix # TODO create a home-locale.nix ??
+		nixvim.homeManagerModules.nixvim
+        ];
+	
+      };
     in {
-      nixosConfigurations.Orchid = defineNixosSystem "Orchid";
+      nixosConfigurations.Orchid   = defineNixosSystem "Orchid";
+      homeConfigurations.emily     = defineHomeManagerOnlySystem "emily" "x86_64-linux";
+      homeConfigurations.emiboa01  = defineHomeManagerOnlySystem "emiboa01" "x86_64-linux";
   };
 }

@@ -19,5 +19,5 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   # TODO: Sort waybar here too!
-
+  # Although, sorted now via home-manager??
 }

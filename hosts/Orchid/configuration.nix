@@ -6,7 +6,10 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-    ];
+      ../nixos # Include general NixOS config
+      ./games.nix # Steam, nVidia graphics settings, controller/gamepad drivers etc..
+      ./bluetooth.nix # Bluetooth, so can use wireless controllers
+  ];
 
   # This needs to be enabled here (despite it being enabled by home-manager) since it should be system-wide. we just use home-manager to customise our user's zsh
   programs.zsh.enable = true;
@@ -75,12 +78,10 @@
     kitty
     swww # wallpapers
     rofi-wayland # TODO what is this one too?
+    pavucontrol
+
+    steam
+    nvtop
   ];
-
-
-  # TODO: get steam working again (once got hyprland working, in case the WM situation is messing with things)
-  programs.steam = {
-    enable = true;
-  };
 
 }
