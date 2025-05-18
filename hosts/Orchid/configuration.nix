@@ -69,10 +69,10 @@
     gimp
     rawtherapee
 
-    waybar
-    (waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    }))
+    #waybar
+    #(waybar.overrideAttrs (oldAttrs: {
+    #  mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+    #}))
     dunst
     libnotify
     kitty
@@ -82,6 +82,8 @@
 
     steam
     nvtop
+
+    usbutils
   ];
 
 }

@@ -8,7 +8,7 @@
     nvidia.modesetting.enable = true;
   };
 
-  programs.hyprland = {
+  programs.hyprland = { # Enabled here, config managed by home-manager
     enable = true;
     xwayland.enable = true;
   };
@@ -18,6 +18,4 @@
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
-  # TODO: Sort waybar here too!
-  # Although, sorted now via home-manager??
 }
