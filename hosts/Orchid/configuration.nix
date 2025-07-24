@@ -2,13 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../nixos # Include general NixOS config
-      ./games.nix # Steam, nVidia graphics settings, controller/gamepad drivers etc..
-      ./bluetooth.nix # Bluetooth, so can use wireless controllers
+{ config, pkgs, ... }:
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../nixos # Include general NixOS config
+    ./games.nix # Steam, nVidia graphics settings, controller/gamepad drivers etc..
+    ./bluetooth.nix # Bluetooth, so can use wireless controllers
   ];
 
   # This needs to be enabled here (despite it being enabled by home-manager) since it should be system-wide. we just use home-manager to customise our user's zsh
@@ -21,19 +22,19 @@
   boot.loader.grub = {
     minegrub-world-sel = {
       enable = true;
-      customIcons = [{
-        name = "nixos";
-        lineTop = "Orchid - NixOS";
-        lineBottom = "Spectator Mode, Cheats";
-        customImg = builtins.path {
-          path = ./nixos-logo.png;
-          name = "nixos-img";
-        };
-      }];
+      customIcons = [
+        {
+          name = "nixos";
+          lineTop = "Orchid - NixOS";
+          lineBottom = "Spectator Mode, Cheats";
+          customImg = builtins.path {
+            path = ./nixos-logo.png;
+            name = "nixos-img";
+          };
+        }
+      ];
     };
   };
-
-
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -53,7 +54,6 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
 
   # Install firefox.
   programs.firefox.enable = true;

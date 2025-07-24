@@ -1,6 +1,7 @@
 # Config for Git (personal)
 
-{ config, pkgs, ... }:{
+{ config, pkgs, ... }:
+{
   programs.git = {
     enable = true;
     userName = "Emily Boarer";

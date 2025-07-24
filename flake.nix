@@ -16,64 +16,94 @@
     #nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, home-manager, minegrub-world-sel-theme, nixvim, ... }:
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      minegrub-world-sel-theme,
+      nixvim,
+      ...
+    }:
     let
-      defineNixosSystem = hostname: nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-	  ./locale.nix
-	  ./hosts/${hostname}/configuration.nix
-	  minegrub-world-sel-theme.nixosModules.default # TODO haven't been able to get this to work from Orchid/configuration.nix yet - give it another go!
-	  ({ config, pkgs, lib, ... }: {
-   	    networking.hostName = lib.mkDefault hostname;
-	    networking.networkmanager.enable = true;
+      defineNixosSystem =
+        hostname:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./locale.nix
+            ./hosts/${hostname}/configuration.nix
+            minegrub-world-sel-theme.nixosModules.default # TODO haven't been able to get this to work from Orchid/configuration.nix yet - give it another go!
+            (
+              {
+                config,
+                pkgs,
+                lib,
+                ...
+              }:
+              {
+                networking.hostName = lib.mkDefault hostname;
+                networking.networkmanager.enable = true;
 
-            users.users.emily = {
-	      # Set password with `passwd`
-	      isNormalUser = true;
-	      description = "Emily";
-	      extraGroups = [ "networkmanager" "wheel" "audio" ];
-	      shell = pkgs.zsh;
-	      packages = with pkgs; [
-                home-manager
-              ];
-	    };
+                users.users.emily = {
+                  # Set password with `passwd`
+                  isNormalUser = true;
+                  description = "Emily";
+                  extraGroups = [
+                    "networkmanager"
+                    "wheel"
+                    "audio"
+                  ];
+                  shell = pkgs.zsh;
+                  packages = with pkgs; [
+                    home-manager
+                  ];
+                };
 
-            nix.settings.experimental-features = [ "nix-command" "flakes" ]; 
-            nix.settings.trusted-users = [ "root" "emily" ];
-	    system.stateVersion = "24.05";
-	  })
-	  home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.emily = ./home/emily;
-	    home-manager.backupFileExtension = "backup";
-          }
-          # TODO: move to homemanagerModules.nixvim??? that breaks currently so temp bodge here:
-	  nixvim.nixosModules.nixvim
-          {programs.nixvim = ./home/cli/nixvim.nix;}
-        ];
-      };
-      defineHomeManagerOnlySystem = username: system: home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { inherit system; };
-        modules = [
+                nix.settings.experimental-features = [
+                  "nix-command"
+                  "flakes"
+                ];
+                nix.settings.trusted-users = [
+                  "root"
+                  "emily"
+                ];
+                system.stateVersion = "24.05";
+              }
+            )
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.emily = ./home/emily;
+              home-manager.backupFileExtension = "backup";
+            }
+            # TODO: move to homemanagerModules.nixvim??? that breaks currently so temp bodge here:
+	    nixvim.nixosModules.nixvim
+            {programs.nixvim = ./home/cli/nixvim.nix;}
+          ];
+        };
+      defineHomeManagerOnlySystem =
+        username: system:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs { inherit system; };
+          modules = [
             {
               ## Assume home directory location
               home.username = username;
               home.homeDirectory = "/home/${username}";
             }
-                ./home/${username}/home.nix
-		nixvim.homeManagerModules.nixvim
-        ];
-      };
-    in {
+            ./home/${username}/home.nix
+            nixvim.homeManagerModules.nixvim
+          ];
+        };
+    in
+    {
       # TODO add support for nixos servers
       # with simple way to pick which 'tasks' are installed on which hosts simply here in this declaration
       # and move some of these functions to an external file? so only clean configs here
       # and have a common nixos system, with server and desktop 'children'
-      nixosConfigurations.Orchid   = defineNixosSystem "Orchid";
-      homeConfigurations.emily     = defineHomeManagerOnlySystem "emily" "x86_64-linux";
-      homeConfigurations.emiboa01  = defineHomeManagerOnlySystem "emiboa01" "x86_64-linux";
-  };
+      nixosConfigurations.Orchid = defineNixosSystem "Orchid";
+      homeConfigurations.emily = defineHomeManagerOnlySystem "emily" "x86_64-linux";
+      homeConfigurations.emiboa01 = defineHomeManagerOnlySystem "emiboa01" "x86_64-linux";
+    };
 }

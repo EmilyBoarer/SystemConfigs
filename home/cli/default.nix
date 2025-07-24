@@ -2,7 +2,13 @@
 # Basically, all the terminal tools & their configs
 
 # home-manager CLI config:
-{ config, pkgs, lib, ... }:{
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   home.stateVersion = "24.05";
   nixpkgs.config.allowUnfree = true;
   programs.home-manager.enable = true;
@@ -57,6 +63,6 @@
     #  LANG           = "en_GB.UTF-8";
     #  LOCALE_ARHCIVE = "/usr/lib/locale/locale-archive";
     #};
-# TODO finally sort out locales not working!
+    # TODO finally sort out locales not working!
   };
 }

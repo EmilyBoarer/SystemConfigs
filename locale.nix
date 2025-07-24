@@ -1,6 +1,7 @@
 # Configure the Locale, Fonts, etc..
 
-{ config, pkgs, ... }:{
+{ config, pkgs, ... }:
+{
   # Timezone / Locale / Keyboard layout
   time.timeZone = "Europe/London";
   i18n.defaultLocale = "en_GB.UTF-8";
@@ -20,7 +21,7 @@
     variant = "";
   };
   console.keyMap = "uk";
-  
+
   # Fonts
   fonts.packages = with pkgs; [ nerdfonts ];
 }

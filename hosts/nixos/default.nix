@@ -1,7 +1,8 @@
 # Config to be used by all NixOS hosts
 
-{ config, pkgs, ... }:{
-  
+{ config, pkgs, ... }:
+{
+
   # Hyprland / WM settings
   hardware = {
     graphics.enable = true;
