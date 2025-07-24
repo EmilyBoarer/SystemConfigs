@@ -7,8 +7,6 @@
   nixpkgs.config.allowUnfree = true;
   programs.home-manager.enable = true;
 
-  programs.nixvim = import ./nixvim.nix { inherit pkgs lib; };
-
   home.packages = with pkgs; [
     # Terminal Tools:
     zsh
@@ -29,6 +27,9 @@
   ];
 
   # Configure Tools:
+
+  #programs.nixvim = import ./nixvim.nix { inherit pkgs lib; };
+
   programs.zsh = {
     enable = true;
     history.size = 10000000;
@@ -52,9 +53,10 @@
     #envExtra = ". /home/emiboa01/.nix-profile/etc/profile.d/nix.sh; export LANG=\"en_GB.UTF-8\"; export LOCALE_ARHCIVE=\"/usr/lib/locale/locale-archive\"; ";
     # This is required on work system? why?: envExtra = ". /home/emiboa01/.nix-profile/etc/profile.d/nix.sh; export LANG=\"en_GB.UTF-8\"; ";
     # Also, what's this doing again, and why is it needed? is there a better solution to generalise the environment setup on these systems?
-    home.sessionVariables = {
-      LANG           = "en_GB.UTF-8";
-      LOCALE_ARHCIVE = "/usr/lib/locale/locale-archive";
-    };
+    #home.sessionVariables = {
+    #  LANG           = "en_GB.UTF-8";
+    #  LOCALE_ARHCIVE = "/usr/lib/locale/locale-archive";
+    #};
+# TODO finally sort out locales not working!
   };
 }

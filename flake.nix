@@ -7,8 +7,8 @@
 
     minegrub-world-sel-theme.url = "github:Lxtharia/minegrub-world-sel-theme";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
-    
-    minegrub-world-sel-theme.inputs.nixpkgs.follows = "nixpkgs";  
+
+    minegrub-world-sel-theme.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nixvim.url = "github:nix-community/nixvim";
@@ -50,25 +50,28 @@
             home-manager.users.emily = ./home/emily;
 	    home-manager.backupFileExtension = "backup";
           }
+          # TODO: move to homemanagerModules.nixvim??? that breaks currently so temp bodge here:
+	  nixvim.nixosModules.nixvim
+          {programs.nixvim = ./home/cli/nixvim.nix;}
         ];
       };
       defineHomeManagerOnlySystem = username: system: home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs { inherit system; };
-        
         modules = [
             {
               ## Assume home directory location
               home.username = username;
               home.homeDirectory = "/home/${username}";
             }
-
                 ./home/${username}/home.nix
-                # ./locale.nix # TODO create a home-locale.nix ??
 		nixvim.homeManagerModules.nixvim
         ];
-	
       };
     in {
+      # TODO add support for nixos servers
+      # with simple way to pick which 'tasks' are installed on which hosts simply here in this declaration
+      # and move some of these functions to an external file? so only clean configs here
+      # and have a common nixos system, with server and desktop 'children'
       nixosConfigurations.Orchid   = defineNixosSystem "Orchid";
       homeConfigurations.emily     = defineHomeManagerOnlySystem "emily" "x86_64-linux";
       homeConfigurations.emiboa01  = defineHomeManagerOnlySystem "emiboa01" "x86_64-linux";
