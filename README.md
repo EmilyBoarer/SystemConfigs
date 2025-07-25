@@ -21,6 +21,19 @@ sudo nixos-rebuild boot --flake 'github:EmilyBoarer/SystemConfigs/optionalcommit
 NB: `nixos-rebuild boot` makes it the default boot option, but does not apply until reboot
 - reboot
 
+TODO explain more:
+command to run for remote building. run this on Orchid, assuming orchid has ssh key on remote's authorized\_files
+```zsh
+nixos-rebuild --target-host nixos@192.168.1.147 boot --flake '.#Snapdragon'
+
+that nearly, worked, but broke at the final hurdle (could not symlink the system into the bootloader or something along those lines)
+
+nixos-rebuild --target-host nixos@192.168.1.147 boot --use-remote-sudo --flake '.#Snapdragon'
+
+but then reran this, and it didn't seem to do much, but then after a reboot it has taken effect!
+```
+This requires `boot.binfmt.emulatedSystems = ["aarch64-linux"];` to be set on the building machine, since it is doing cross-platform building
+
 ### Home-manager on existing Ubuntu:
 #### 1. Install the Nix package manager:
 Following https://nixos.org/download/ for single-user installation of Nix:
