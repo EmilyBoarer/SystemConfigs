@@ -2,6 +2,25 @@
 
 ## Installation
 
+### Install on Raspberry Pi Host:
+
+On your system:
+TODO: describe how to get the basic SD card flashed
+
+if required: add a new host to `flake.nix` using `defineRpiSystem`. Add any services/applciations you wish to use to the list argument.
+
+Make sure changes are pushed so the RPi can fetch them.
+
+On the Raspberry Pi (you'll need keyboard/monitor for this one-off setup):
+- Update bootloader (RPi4/5 only) TODO describe
+- TODO: you might want to add a swapfile (10gb swapfile for rpi with 2gb ram -- does this fix the issues???) - without this, 2gb fills and then it crashes!
+- switch to the desired host on this flake: (example with Snapdragon host)
+```zsh
+sudo nixos-rebuild boot --flake 'github:EmilyBoarer/SystemConfigs/optionalcommithashid#Snapdragon'
+```
+NB: `nixos-rebuild boot` makes it the default boot option, but does not apply until reboot
+- reboot
+
 ### Home-manager on existing Ubuntu:
 #### 1. Install the Nix package manager:
 Following https://nixos.org/download/ for single-user installation of Nix:
