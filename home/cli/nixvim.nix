@@ -98,9 +98,9 @@
       enable = true;
       modified.enable = true;
       # show all dotfiles and dotdirs, but hide .git dir:
-      filters.custom = [
-        ".git"
-      ];
+      #filters.custom = [
+      #  ".git"
+      #];
     };
 
     # Floating terminal 'window':
@@ -172,10 +172,10 @@
     nvim-autopairs.enable = true; # TODO also autocomplete semicolons after `{}` in nix files? how? LSP do a better job at this sort of thing?
 
     # Colour hexcodes etc.. inline:
-    colorizer = {
-      enable = true;
-      settings.names = false; # # TODO: this setting doesn't appear to be working!
-    };
+    #colorizer = {
+    #  enable = true;
+    #  settings.names = false; # # TODO: this setting doesn't appear to be working!
+    #};
 
     # Make it easier to comment and uncomment code
     #comment = {
