@@ -1,6 +1,7 @@
 # Config for `emily` user, assuming NixOS system with home-manager
 
-{ config, pkgs, ... }:{
+{ config, pkgs, ... }:
+{
   imports = [
     ../gui
     ./git.nix

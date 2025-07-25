@@ -1,13 +1,14 @@
 # Config specific to gaming: Steam, nVidia drivers, controller/gamepad drivers, etc..
 
-{ config, pkgs, ... }:{
+{ config, pkgs, ... }:
+{
 
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
-  
+
   # Controller/gamepad support:
   hardware.xpadneo.enable = true;
   hardware.xone.enable = true; # support for the xbox controller USB dongle ???
@@ -37,6 +38,6 @@
 
   # hardware.opengl.driSupport = true; # No longer has any effect
   hardware.pulseaudio.support32Bit = true;
-  boot.kernelParams = ["nvidia_drm.modeset=1"];
+  boot.kernelParams = [ "nvidia_drm.modeset=1" ];
 
 }

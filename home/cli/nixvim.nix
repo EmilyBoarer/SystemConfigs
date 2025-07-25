@@ -1,11 +1,12 @@
 # NixVim docs:    https://nix-community.github.io/nixvim/
 # Neovim Options: https://nix-community.github.io/nixvim/NeovimOptions/index.html
 
-{ pkgs, ... }: {
-  enable        = true;
+{ pkgs, ... }:
+{
+  enable = true;
   defaultEditor = true;
-  vimAlias      = true;
-  viAlias       = true;
+  vimAlias = true;
+  viAlias = true;
 
   # TODO colorscheme & syntax highlighting
   colorschemes.gruvbox = {
@@ -37,13 +38,16 @@
             "     ░░░      ░░░░░ ░░░░░     ░░░░░ ░░░░░ ░░░░░░░░░░░ ░░░░░    "
             ""
           ];
-          shortcut = [{ desc = "leader = <space>"; }];
+          shortcut = [ { desc = "leader = <space>"; } ];
           disable_move = true;
           packages.enable = false;
           #project.limit = 5;
           project.enable = false;
           mru.limit = 15;
-          footer = [ "" "nixvim (neovim) - Configured with ❤️ in Cambridge, UK" ];
+          footer = [
+            ""
+            "nixvim (neovim) - Configured with ❤️ in Cambridge, UK"
+          ];
         };
       };
     };
@@ -62,7 +66,8 @@
       };
     };
     lazygit.enable = true;
-    gitsigns = { # Annotate git status line-by-line in the lefthand column
+    gitsigns = {
+      # Annotate git status line-by-line in the lefthand column
       enable = true;
       settings = {
         signs = {
@@ -73,7 +78,7 @@
           changedelete.text = "~";
           untracked.text = "┆";
         };
-        signcolumn=true;
+        signcolumn = true;
         watch_gitdir.follow_files = true;
         current_line_blame = false;
       };
@@ -93,9 +98,9 @@
       enable = true;
       modified.enable = true;
       # show all dotfiles and dotdirs, but hide .git dir:
-      filters.custom = [
-        ".git"
-      ];
+      #filters.custom = [
+      #  ".git"
+      #];
     };
 
     # Floating terminal 'window':
@@ -105,11 +110,11 @@
         width = 0.8;
         height = 0.6;
         autoclose = 1; # Close window only if the job exits normally
-        keymap_new    = "<leader>t";
-        keymap_prev   = "<leader>ap";
-        keymap_next   = "<leader>an";
+        keymap_new = "<leader>t";
+        keymap_prev = "<leader>ap";
+        keymap_next = "<leader>an";
         keymap_toggle = "<leader>at";
-        keymap_kill   = "<leader>ak";
+        keymap_kill = "<leader>ak";
       };
     };
 
@@ -125,21 +130,21 @@
     lsp = {
       enable = true;
       servers = {
-    #    asm_lsp.enable = true;
+        #    asm_lsp.enable = true;
         bashls.enable = true;
-    #    bitbake_language_server.enable = pkgs.stdenv.isLinux;
+        #    bitbake_language_server.enable = pkgs.stdenv.isLinux;
         clangd.enable = true;
         cmake.enable = true;
-    #    dockerls.enable = true;
-    #    #gitlab_ci_ls.enable = true; # TODO: Enable when available
-    #    jsonls.enable = true;
-    #    just.enable = true;
-    #    lua_ls.enable = true;
-    #    pyright.enable = true;
-    #    ruff.enable = true;
-    #    # TODO: the default config doesn’t work great quite yet
-    #    # see https://github.com/nix-community/nixvim/issues/3296
-    #    #statix.enable = true;
+        #    dockerls.enable = true;
+        #    #gitlab_ci_ls.enable = true; # TODO: Enable when available
+        #    jsonls.enable = true;
+        #    just.enable = true;
+        #    lua_ls.enable = true;
+        #    pyright.enable = true;
+        #    ruff.enable = true;
+        #    # TODO: the default config doesn’t work great quite yet
+        #    # see https://github.com/nix-community/nixvim/issues/3296
+        #    #statix.enable = true;
         yamlls.enable = true;
         #rust_analyzer = {
         #  enable = true;
@@ -149,7 +154,8 @@
           settings.formatting.command = [ "nixpkgs-fmt" ];
         };
       };
-      keymaps.lspBuf = { # https://github.com/nix-community/nixvim/blob/main/modules/lsp/keymaps.nix
+      keymaps.lspBuf = {
+        # https://github.com/nix-community/nixvim/blob/main/modules/lsp/keymaps.nix
         "gd" = "definition";
         "gD" = "references";
         "gt" = "type_definition";
@@ -166,11 +172,10 @@
     nvim-autopairs.enable = true; # TODO also autocomplete semicolons after `{}` in nix files? how? LSP do a better job at this sort of thing?
 
     # Colour hexcodes etc.. inline:
-    colorizer = {
-      enable = true;
-      settings.names = false; ## TODO: this setting doesn't appear to be working!
-    };
-
+    #colorizer = {
+    #  enable = true;
+    #  settings.names = false; # # TODO: this setting doesn't appear to be working!
+    #};
 
     # Make it easier to comment and uncomment code
     #comment = {
@@ -196,7 +201,6 @@
     # TODO symbols-outline - list all the symbols in a file
     # https://github.com/simrat39/symbols-outline.nvim?tab=readme-ov-file
 
-
     ## TODO explore nvim-surround.enable = true;
   };
 
@@ -209,9 +213,12 @@
 
     wrap = true;
     sidescroll = 8;
-    showbreak = "↳"; ## TODO future special characters, noted here for later: ↯ ❰❱❲❳⦃⦄⟬⟭〈〉⦗⦘⸨⸩⸙〘〙〈〉《》𑗋
+    showbreak = "↳"; # # TODO future special characters, noted here for later: ↯ ❰❱❲❳⦃⦄⟬⟭〈〉⦗⦘⸨⸩⸙〘〙〈〉《》𑗋
 
-    viewoptions = [ "folds" "cursor" ];
+    viewoptions = [
+      "folds"
+      "cursor"
+    ];
 
     # Defines the column multiple used to display the Horizontal Tab character
     tabstop = 8; # TODO only want 2 for nix files, want 8 for most OSS applications!
@@ -246,55 +253,98 @@
     # idea: make current file executable, or just chmod current file and specify +x or -r etc.. with examples given.
     # idea: home-manager switch command without having to leave nvim
     # Nix shortcuts:
-    { key = "<leader>r"; options.desc = "Reload: Test out new config"; action = ":source $MYVIMRC<CR>"; }
-    { key = "<leader>nhs"; options.desc = "Home-manager switch"; action = ":FloatermNew home-manager switch<CR>"; }
+    {
+      key = "<leader>r";
+      options.desc = "Reload: Test out new config";
+      action = ":source $MYVIMRC<CR>";
+    }
+    {
+      key = "<leader>nhs";
+      options.desc = "Home-manager switch";
+      action = ":FloatermNew home-manager switch<CR>";
+    }
     # Git shortcuts:
-    { key = "<leader>gb"; options.desc = "Git: Toggle Inline Blame"; action = ":GitBlameToggle<CR>"; }
-    { key = "<leader>gg"; options.desc = "Open LazyGit"; action = ":LazyGit<CR>"; }
+    {
+      key = "<leader>gb";
+      options.desc = "Git: Toggle Inline Blame";
+      action = ":GitBlameToggle<CR>";
+    }
+    {
+      key = "<leader>gg";
+      options.desc = "Open LazyGit";
+      action = ":LazyGit<CR>";
+    }
 
     # File manager:
-    { key = "<leader>h"; options.desc = "Toggle File Tree Visibility"; action = ":NvimTreeToggle<CR>"; }
+    {
+      key = "<leader>h";
+      options.desc = "Toggle File Tree Visibility";
+      action = ":NvimTreeToggle<CR>";
+    }
 
-# Telescope: TODO try out different options and shortcut the ones which end up being useful. TODO hook into LSP to search files?
+    # Telescope: TODO try out different options and shortcut the ones which end up being useful. TODO hook into LSP to search files?
     # https://github.com/nvim-telescope/telescope.nvim
-    { key = "<leader>ff"; options.desc = "Telescope find files"; action = ":Telescope find_files<CR>"; }
-    { key = "<leader>fg"; options.desc = "Telescope live grep"; action = ":Telescope live_grep<CR>"; }
-    { key = "<leader>fb"; options.desc = "Telescope buffers"; action = ":Telescope buffers<CR>"; }
-    { key = "<leader>fh"; options.desc = "Telescope help_tags"; action = ":Telescope help_tags<CR>"; }
+    {
+      key = "<leader>ff";
+      options.desc = "Telescope find files";
+      action = ":Telescope find_files<CR>";
+    }
+    {
+      key = "<leader>fg";
+      options.desc = "Telescope live grep";
+      action = ":Telescope live_grep<CR>";
+    }
+    {
+      key = "<leader>fb";
+      options.desc = "Telescope buffers";
+      action = ":Telescope buffers<CR>";
+    }
+    {
+      key = "<leader>fh";
+      options.desc = "Telescope help_tags";
+      action = ":Telescope help_tags<CR>";
+    }
   ];
   # Specify Groups of keymaps for which-key
   plugins.which-key.settings.spec = [
-    { # Git
+    {
+      # Git
       __unkeyed = "<leader>g";
       group = "Git";
       icon = "";
     }
-    { # Nix
+    {
+      # Nix
       __unkeyed = "<leader>n";
       group = "Nix etc..";
       icon = "󱄅";
     }
-    { # Nix: Home-Manager
+    {
+      # Nix: Home-Manager
       __unkeyed = "<leader>nh";
       group = "Home-Manager";
       icon = "🏠";
     }
-    { # Nix: NixOS
+    {
+      # Nix: NixOS
       __unkeyed = "<leader>no";
       group = "NixOS";
       icon = "";
     }
-    { # Debugging: TODO add commands for this category
+    {
+      # Debugging: TODO add commands for this category
       __unkeyed = "<leader>d";
       group = "Debugging";
       icon = "";
     }
-    { # Telescope, TODO: Goto definition, etc..
+    {
+      # Telescope, TODO: Goto definition, etc..
       __unkeyed = "<leader>f";
       group = "Navigate Codebase";
       icon = "󰥩";
     }
-    { # Floaterm - floating terminal
+    {
+      # Floaterm - floating terminal
       __unkeyed = "<leader>a"; # optimise for home-row!
       group = "Floaterm";
       icon = "";

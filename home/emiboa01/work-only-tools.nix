@@ -15,5 +15,5 @@
       }'';
     # For dockerfiles that assume that containers come from docker.io.
     "containers/registries.conf".text = "unqualified-search-registries = ['docker.io']";
-    };
+  };
 }
