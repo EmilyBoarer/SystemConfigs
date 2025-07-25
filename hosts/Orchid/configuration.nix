@@ -2,39 +2,22 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, hostname, ... }:
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../nixos # Include general NixOS config
     ./games.nix # Steam, nVidia graphics settings, controller/gamepad drivers etc..
     ./bluetooth.nix # Bluetooth, so can use wireless controllers
+    ../common/boot_themes.nix
+    ../common/gui.nix
   ];
 
-  # This needs to be enabled here (despite it being enabled by home-manager) since it should be system-wide. we just use home-manager to customise our user's zsh
-  programs.zsh.enable = true;
-
-  # Bootloader
+  # Bootloader # TODO move to hw-config? (or similar if using disko?)
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/nvme0n1";
   boot.loader.grub.useOSProber = true;
-  boot.loader.grub = {
-    minegrub-world-sel = {
-      enable = true;
-      customIcons = [
-        {
-          name = "nixos";
-          lineTop = "Orchid - NixOS";
-          lineBottom = "Spectator Mode, Cheats";
-          customImg = builtins.path {
-            path = ./nixos-logo.png;
-            name = "nixos-img";
-          };
-        }
-      ];
-    };
-  };
+
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -58,8 +41,6 @@
   # Install firefox.
   programs.firefox.enable = true;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -69,19 +50,10 @@
     gimp
     rawtherapee
 
-    waybar
-    (waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    }))
-    dunst
-    libnotify
-    kitty
-    swww # wallpapers
-    rofi-wayland # TODO what is this one too?
-    pavucontrol
-
     steam
     nvtop
+
+    nixfmt-rfc-style
   ];
 
 }

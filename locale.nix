@@ -1,6 +1,6 @@
 # Configure the Locale, Fonts, etc..
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   # Timezone / Locale / Keyboard layout
   time.timeZone = "Europe/London";

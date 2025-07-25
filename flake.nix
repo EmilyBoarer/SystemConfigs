@@ -29,91 +29,16 @@
         hostname:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = { inherit hostname; };
           modules = [
             ./locale.nix
-            ./hosts/${hostname}/configuration.nix
-            minegrub-world-sel-theme.nixosModules.default # TODO haven't been able to get this to work from Orchid/configuration.nix yet - give it another go!
-            (
-              {
-                config,
-                pkgs,
-                lib,
-                ...
-              }:
-              {
-                networking.hostName = lib.mkDefault hostname;
-                networking.networkmanager.enable = true;
-
-                users.users.emily = {
-                  # Set password with `passwd`
-                  isNormalUser = true;
-                  description = "Emily";
-                  extraGroups = [
-                    "networkmanager"
-                    "wheel"
-                    "audio"
-                  ];
-                  shell = pkgs.zsh;
-                  packages = with pkgs; [
-                    home-manager
-                  ];
-                };
-
-                nix.settings.experimental-features = [
-                  "nix-command"
-                  "flakes"
-                ];
-                nix.settings.trusted-users = [
-                  "root"
-                  "emily"
-                ];
-                system.stateVersion = "24.05";
-                # TODO: move dm/other parts to a common config for graphical hosts
-                # Pre 25.11
-                services.xserver.enable = true;
-                services.xserver.displayManager.gdm.enable = true;
-                #services.xserver.desktopManager.gnome.enable = true;
-
-                # As of 25.11
-                #services.displayManager.gdm.enable = true;
-                #services.desktopManager.gnome.enable = true;
-
-                # Plymouth! TODO also move to a better place
-                boot = {
-                  plymouth = {
-                    enable = true;
-                    theme = "colorful_sliced";
-                    themePackages = with pkgs; [
-                      # By default we would install all themes
-                      (adi1090x-plymouth-themes.override {
-                        selected_themes = [ "colorful_sliced" ];
-                      })
-                    ];
-                  };
-
-                  # Enable "Silent boot"
-                  consoleLogLevel = 3;
-                  initrd.verbose = false;
-                  kernelParams = [
-                    "quiet"
-                    "splash"
-                    "boot.shell_on_fail"
-                    "udev.log_priority=3"
-                    "rd.systemd.show_status=auto"
-                  ]; # TODO include params from configuration.nix here?
-                };
-              }
-            )
+            minegrub-world-sel-theme.nixosModules.default
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.emily = ./home/emily;
-              home-manager.backupFileExtension = "backup";
-            }
-            # TODO: move to homemanagerModules.nixvim??? that breaks currently so temp bodge here:
 	    nixvim.nixosModules.nixvim
-            {programs.nixvim = ./home/cli/nixvim.nix;}
+            ./hosts/common/core_nixos.nix
+            ./hosts/common/core_emily_user.nix # sets up user & home-manager
+            ./hosts/common/networking.nix
+            ./hosts/${hostname}/configuration.nix
           ];
         };
       defineHomeManagerOnlySystem =
