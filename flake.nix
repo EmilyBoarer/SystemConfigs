@@ -55,14 +55,34 @@
             nixvim.homeManagerModules.nixvim
           ];
         };
+      defineRpiSystem = hostname: services: nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = { inherit hostname; };
+        modules = [
+          home-manager.nixosModules.home-manager
+	  nixvim.nixosModules.nixvim
+          ./hosts/common/core_nixos.nix
+          ./hosts/common/core_emily_user.nix
+          ./hosts/common/networking.nix
+          ./hosts/common/rpi_configuration.nix
+        ] ++ services;
+      };
     in
     {
-      # TODO add support for nixos servers
-      # with simple way to pick which 'tasks' are installed on which hosts simply here in this declaration
-      # and move some of these functions to an external file? so only clean configs here
-      # and have a common nixos system, with server and desktop 'children'
+      # Orchid: Ryzen 9 3900X (24) @ 3.8 GHz - 32GB - GTX 1660
       nixosConfigurations.Orchid = defineNixosSystem "Orchid";
+
+      # Firethorn: Framework 13 - i5-1135G7 (8) @ 4.200GHz - 32GB
+      # Currently, home-manager on Ubuntu until flake is complete enough to switch to nixos
       homeConfigurations.emily = defineHomeManagerOnlySystem "emily" "x86_64-linux";
+
+      # Work Systems (home-manager on Ubuntu):
       homeConfigurations.emiboa01 = defineHomeManagerOnlySystem "emiboa01" "x86_64-linux";
+
+      # Experimenting with Raspberry Pi host support:
+      # Snapdragon: RPi4B - Cortex A72 (4) @ 1.5GHz - 2GB
+      nixosConfigurations.Snapdragon = defineRpiSystem "Snapdragon" [
+        # Services will go here
+      ];
     };
 }

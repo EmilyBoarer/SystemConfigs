@@ -4,7 +4,7 @@
   # Set up home-manager for nixos system
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.users.emily = ../../home/emily;
+  home-manager.users.emily = ../../home/cli;
   home-manager.backupFileExtension = "backup";
 
   # Configure nixvim TODO: why does this not work when done through home-manager on a nixos system?
