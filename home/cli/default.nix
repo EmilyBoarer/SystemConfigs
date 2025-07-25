@@ -34,7 +34,7 @@
 
   # Configure Tools:
 
-  #programs.nixvim = import ./nixvim.nix { inherit pkgs lib; };
+  #NB: Nixvim configured in [home.nix (hm) / core_emily_user.nix (nixos)]
 
   programs.zsh = {
     enable = true;
