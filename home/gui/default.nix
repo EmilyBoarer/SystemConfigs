@@ -4,7 +4,7 @@
 {
   imports = [
     ../cli # Include CLI config too, this is an additional extension to that
-    ./waybar # Waybar Config
+    ./hypr
   ];
 
   programs.kitty = {
