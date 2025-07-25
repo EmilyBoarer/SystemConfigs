@@ -18,6 +18,10 @@
   boot.loader.grub.device = "/dev/nvme0n1";
   boot.loader.grub.useOSProber = true;
 
+  # Support to build fro rpis:
+  # https://discourse.nixos.org/t/compile-to-raspberry-pi/24338/2
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
