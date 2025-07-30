@@ -39,6 +39,7 @@
             ./hosts/common/core_emily_user.nix # sets up user & home-manager
             ./hosts/common/networking.nix
             ./hosts/${hostname}/configuration.nix
+            ./hosts/common/mosh-server.nix
           ];
         };
       defineHomeManagerOnlySystem =
