@@ -25,11 +25,23 @@
     tig
     lazygit
     tree
-    mosh
+    #mosh SEE BELOW: have to make modification for it to work! why? how to fix properly?
     tmux
     bat
     ripgrep
     bottom
+    (mosh.overrideAttrs(old: { # Mosh does not play nicely with LDAP users by default
+      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ makeWrapper ];
+      # Work around "No user exists for uid <numbers>" by prepending sssd to
+      # LD_LIBRARY_PATH This is a hack because it hijacks the
+      # "postFixup", that incidentally is not set for mosh, but it could be in the future
+      postPatch = ''
+        substituteInPlace scripts/mosh.pl \
+          --subst-var-by ssh "/usr/bin/ssh" \
+          --subst-var-by mosh-client "$out/bin/mosh-client"
+      '';
+#        wrapProgram $out/bin/mosh --prefix LD_LIBRARY_PATH : "${sssd}/lib"
+    }))
   ];
 
   # Configure Tools:
