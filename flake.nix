@@ -85,7 +85,7 @@
       # Snapdragon: RPi4B - Cortex A72 (4) @ 1.5GHz - 2GB
       nixosConfigurations.Snapdragon = defineRpiSystem "Snapdragon" [
         ./services/boarer.net.nix
-        { config = { boarer.net.trackingBranch = "test"; }; }
+        { config = { boarer.net.trackingBranch = "main"; }; }
         # Other services go here!
       ];
       # This is running on just the SD card right now. TODO: can it run on some faster storage? USB SSD? even with remote building it just takes ages to write all the nix store

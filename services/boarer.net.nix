@@ -33,6 +33,7 @@ git checkout origin/${config.boarer.net.trackingBranch}
       ";
     }
   );
+  domain = "192.168.1.147";
 in
 {
   options = {
@@ -54,18 +55,26 @@ in
     };
   };
   config = {
+    # mdbook hosts the thoughts section: server called by cron below
+    environment.systemPackages = [ pkgs.mdbook ];
+
     # Wiki: https://nixos.wiki/wiki/Nginx
     services.nginx = {
       enable = true;
-      virtualHosts."192.168.1.147" = {
+      virtualHosts."${domain}" = {
         # TODO swap out for a proper domain name
         #addSSL = config.boarer.net.doSSL;
         #enableACME = config.boarer.net.doSSL;
-        locations."/".root = "/var/www/boarer.net";
+        locations."/".root = "/var/www/boarer.net"; # TODO prevent this from allowing exploration of the tree!
+        locations."/thoughts/" = {
+          proxyPass = "http://127.0.0.1:8000/";
+          #proxyWebsockets = true;
+        };
       };
+      recommendedProxySettings = true;
       # TODO: start mdbook for blog + forward socket here! (so appears as domain/thoughts)
     };
-    networking.firewall.allowedTCPPorts = [ 80 ]; # TODO update when sorting SSL / ACME
+    networking.firewall.allowedTCPPorts = [ 80 8000 ]; # TODO update when sorting SSL / ACME
     #security.acme = { # This is Let's encrypt certs. Enable & sort this when first attempting to config with doSSL=true!!!
     #  acceptTerms = true;
     #  defaults.email = "foo@bar.com";
@@ -78,6 +87,7 @@ in
       systemCronJobs = [
         # Every 1 minute, run the script as root
         "* * * * *      root    ${updateScript}"
+        "@reboot        root    mdbook serve /var/www/boarer.net/blog -p 8000 -i 127.0.0.1 -a ${domain}"
       ];
     };
 
