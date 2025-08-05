@@ -37,6 +37,13 @@
 
   #NB: Nixvim configured in [home.nix (hm) / core_emily_user.nix (nixos)]
 
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+    silent = true; #stop annoying verbosity
+  };
+
   programs.zsh = {
     enable = true;
     history.size = 10000000;
