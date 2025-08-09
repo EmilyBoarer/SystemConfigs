@@ -9,6 +9,9 @@
 {
   # based on https://nix.dev/tutorials/nixos/installing-nixos-on-a-raspberry-pi
 
+  # Override default home config from core_emily_user.nix, use CLI only since this is a headless system
+  home-manager.users.emily = ./home/cli;
+
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_rpi4;
     initrd.availableKernelModules = [

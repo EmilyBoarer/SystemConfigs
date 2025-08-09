@@ -1,14 +1,14 @@
 # Setup 'emily' user. This setup is common to all nixos hosts
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   # Set up home-manager for nixos system
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.users.emily = ../../home/cli; # # TODO need to set back to home/emily - this is only desirable for rpi/headless
+  home-manager.users.emily = lib.mkDefault ../../home/emily;
   home-manager.backupFileExtension = "backup";
 
-  # Configure nixvim TODO: why does this not work when done through home-manager on a nixos system?
-  programs.nixvim = ../../home/cli/nixvim.nix;
+  # Configure nixvim at a system level
+  programs.nixvim = ../../nixvim.nix;
 
   # Create the 'emily' user
   users.users.emily = {

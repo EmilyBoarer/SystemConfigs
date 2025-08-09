@@ -46,10 +46,11 @@
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { inherit system; };
           modules = [
-            {
+            { ## TODO move this to home/hm-only.nix, which can import the username/home.nix etc.. too
               ## Assume home directory location
               home.username = username;
               home.homeDirectory = "/home/${username}";
+              programs.nixvim = ./nixvim.nix; ## TODO check this worked, and didn't need `import ../cli/nixvim.nix { inherit pkgs lib; };`
             }
             ./home/${username}/home.nix
             nixvim.homeManagerModules.nixvim
