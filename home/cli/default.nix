@@ -26,7 +26,7 @@
     neofetch
     tig
     tree
-    mosh
+    mosh # This mosh is only good as the client side
     tmux
     bat
     ripgrep
