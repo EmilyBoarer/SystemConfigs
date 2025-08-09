@@ -34,7 +34,7 @@
             ./locale.nix
             minegrub-world-sel-theme.nixosModules.default
             home-manager.nixosModules.home-manager
-	    nixvim.nixosModules.nixvim
+            nixvim.nixosModules.nixvim
             ./hosts/common/core_nixos.nix
             ./hosts/common/core_emily_user.nix # sets up user & home-manager
             ./hosts/common/networking.nix
@@ -55,18 +55,20 @@
             nixvim.homeManagerModules.nixvim
           ];
         };
-      defineRpiSystem = hostname: services: nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs = { inherit hostname; };
-        modules = [
-          home-manager.nixosModules.home-manager
-	  nixvim.nixosModules.nixvim
-          ./hosts/common/core_nixos.nix
-          ./hosts/common/core_emily_user.nix
-          ./hosts/common/networking.nix
-          ./hosts/common/rpi_configuration.nix
-        ] ++ services;
-      };
+      defineRpiSystem =
+        hostname: services:
+        nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = { inherit hostname; };
+          modules = [
+            home-manager.nixosModules.home-manager
+            nixvim.nixosModules.nixvim
+            ./hosts/common/core_nixos.nix
+            ./hosts/common/core_emily_user.nix
+            ./hosts/common/networking.nix
+            ./hosts/common/rpi_configuration.nix
+          ] ++ services;
+        };
     in
     {
       # Orchid: Ryzen 9 3900X (24) @ 3.8 GHz - 32GB - GTX 1660
