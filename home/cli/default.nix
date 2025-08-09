@@ -24,6 +24,7 @@
     htop
     btop
     neofetch
+    fastfetch
     tig
     tree
     mosh # This mosh is only good as the client side

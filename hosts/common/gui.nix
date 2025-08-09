@@ -5,7 +5,7 @@
   # Pre 25.11
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
-  #services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # As of 25.11 NB: kept here for when upgrade happens to switch to this instead of the above
   #services.displayManager.gdm.enable = true;
