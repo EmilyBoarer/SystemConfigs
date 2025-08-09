@@ -77,6 +77,8 @@
       # Firethorn: Framework 13 - i5-1135G7 (8) @ 4.200GHz - 32GB
       # Currently, home-manager on Ubuntu until flake is complete enough to switch to nixos
       homeConfigurations.emily = defineHomeManagerOnlySystem "emily" "x86_64-linux";
+      # Adding ahead of future use:
+      nixosConfigurations.Firethorn = defineNixosSystem "Firethorn";
 
       # Work Systems (home-manager on Ubuntu):
       homeConfigurations.emiboa01 = defineHomeManagerOnlySystem "emiboa01" "x86_64-linux";
