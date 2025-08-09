@@ -11,7 +11,28 @@
   #services.displayManager.gdm.enable = true;
   #services.desktopManager.gnome.enable = true;
 
-  # System packages necessary to provide the desktop environment only
+  ### GNOME -------------------------------------------------------------------
+  # https://wiki.nixos.org/wiki/GNOME
+  environment.systemPackages = with pkgs.gnomeExtensions; [
+    blur-my-shell
+  ];
+  programs.dconf.profiles.user.databases = [ # TODO: sort dconf settings here, or in home-manager??? setting in hm mirrors waybar and can be used for hm-only systems too, so go for this option?
+    {
+      lockAll = true; # prevents overriding
+      settings = {
+        "org/gnome/desktop/interface" = {
+          accent-color = "blue";
+        };
+        "org/gnome/desktop/input-sources" = {
+          xkb-options = [ "ctrl:nocaps" ];
+        };
+      };
+    }
+  ];
+
+  ### HYPR --------------------------------------------------------------------
+
+  # System packages necessary to provide the Hyprland desktop environment only
   environment.systemPackages = with pkgs; [
     waybar
     (waybar.overrideAttrs (oldAttrs: {
