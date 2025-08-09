@@ -66,4 +66,15 @@
     #};
     # TODO finally sort out locales not working!
   };
+  programs.tmux = {
+    enable = true;
+    mouse = true;
+    historyLimit = 5000;
+    shell = "${pkgs.zsh}/bin/zsh";
+    clock24 = true;
+    baseIndex = 1; # so numbers follow same order as on keyboard
+  };
+  home.sessionVariables = {
+    SHELL = "zsh";
+  };
 }
