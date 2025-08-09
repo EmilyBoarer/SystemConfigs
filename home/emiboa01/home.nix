@@ -4,7 +4,6 @@
 {
   imports = [
     ../cli
-    ./git.nix
     ./work-only-tools.nix
   ];
 

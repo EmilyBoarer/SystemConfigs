@@ -4,6 +4,5 @@
 {
   imports = [
     ../gui
-    ./git.nix
   ];
 }

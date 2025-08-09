@@ -42,7 +42,7 @@
           ];
         };
       defineHomeManagerOnlySystem =
-        username: system:
+        username: system: extraModules:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { inherit system; };
           modules = [
@@ -53,7 +53,7 @@
             }
             ./home/${username}/home.nix
             nixvim.homeManagerModules.nixvim
-          ];
+          ] ++ extraModules;
         };
       defineRpiSystem =
         hostname: services:
@@ -76,10 +76,12 @@
 
       # Firethorn: Framework 13 - i5-1135G7 (8) @ 4.200GHz - 32GB
       # Currently, home-manager on Ubuntu until flake is complete enough to switch to nixos
-      homeConfigurations.emily = defineHomeManagerOnlySystem "emily" "x86_64-linux";
+      homeConfigurations.emily = defineHomeManagerOnlySystem "emily" "x86_64-linux" [];
 
       # Work Systems (home-manager on Ubuntu):
-      homeConfigurations.emiboa01 = defineHomeManagerOnlySystem "emiboa01" "x86_64-linux";
+      homeConfigurations.emiboa01 = defineHomeManagerOnlySystem "emiboa01" "x86_64-linux" [
+        { config = { gitEmail = "emily.boarer@arm.com"; }; }
+      ];
 
       # Experimenting with Raspberry Pi host support:
       # Snapdragon: RPi4B - Cortex A72 (4) @ 1.5GHz - 2GB

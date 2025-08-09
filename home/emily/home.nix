@@ -4,7 +4,6 @@
 {
   imports = [
     ../cli
-    ./git.nix
   ];
 
   # Install Kitty terminal emulator
